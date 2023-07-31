@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect } from 'react';
+import React, {Fragment, useState, useEffect, useMemo } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
@@ -29,6 +29,8 @@ export default function App(){
     setInput('');
   }
 
+  const letrasNome = useMemo(() => {console.log(nome.length)}, [nome])
+
   return(
     <View style={styles.container}>
       <Text>{nome}</Text>
@@ -36,6 +38,7 @@ export default function App(){
         <Text>Alterar Nome</Text>
       </TouchableOpacity>
       <TextInput placeholder={'nome'} value={input} onChangeText={(texto) => setInput(texto)}/>
+      <Text>{letrasNome}</Text>
     </View>
   )
 }
