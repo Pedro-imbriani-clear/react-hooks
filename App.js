@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect, useMemo } from 'react';
+import React, {Fragment, useState, useEffect, useMemo, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
@@ -6,10 +6,10 @@ export default function App(){
 
   const [nome, setNome] = useState('');
   const [input, setInput] = useState('')
-
+  const nomeInput = useRef(null)
   useEffect(() => {
     async function getStorage(){
-      const nomeStorage = await AsyncStorage.getItem('nome');
+      const nomeStorage = await AsyncStorage.getItem('nomes');
       if(nomeStorage !== null){ 
         setNome(nomeStorage)
       }   
@@ -19,7 +19,7 @@ export default function App(){
 
   useEffect(() => {
     async function saveStorage(){
-      await AsyncStorage.setItem('nome', nome)
+      await AsyncStorage.setItem('nomes', nome)
     }
     saveStorage()
   }, [nome])
@@ -37,8 +37,11 @@ export default function App(){
       <TouchableOpacity onPress={() => alteraNome()} style={{backgroundColor: 'green'}}>
         <Text>Alterar Nome</Text>
       </TouchableOpacity>
-      <TextInput placeholder={'nome'} value={input} onChangeText={(texto) => setInput(texto)}/>
+      <TextInput ref={nomeInput} placeholder={'nome'} value={input} onChangeText={(texto) => setInput(texto)}/>
       <Text>{letrasNome}</Text>
+      <TouchableOpacity onPress={() => novoNome()} style={{backgroundColor: 'green'}}>
+        <Text>Novo nome</Text>
+      </TouchableOpacity>
     </View>
   )
 }
